@@ -1,3 +1,11 @@
+/* ========================================================================
+   $File: $
+   $Date: $
+   $Revision: $
+   $Creator: Casey Muratori $
+   $Notice: (C) Copyright 2014 by Molly Rocket, Inc. All Rights Reserved. $
+   ======================================================================== */
+
 #include <SDL.h>
 #include <stdio.h>
 #include <sys/mman.h>
@@ -27,9 +35,9 @@ typedef uint64_t uint64;
 
 struct sdl_offscreen_buffer
 {
-    // NOTE: Pixels are always 32-bits wide, Memory Order BB GG RR XX
+    // NOTE(casey): Pixels are always 32-bits wide, Memory Order BB GG RR XX
     SDL_Texture *Texture;
-    void *Memory; 
+    void *Memory;
     int Width;
     int Height;
     int Pitch;
@@ -53,7 +61,7 @@ SDLGetWindowDimension(SDL_Window *Window)
     return(Result);
 }
 
-// Function definition that writes bits to the buffer. Note the casts and bit shifts
+// Function that writes bits to the buffer. Note the casts.  
 
 internal void
 RenderWeirdGradient(sdl_offscreen_buffer Buffer, int BlueOffset, int GreenOffset)
@@ -169,7 +177,7 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
     // Create our window.
-    SDL_Window *Window = SDL_CreateWindow("OPUS1",
+    SDL_Window *Window = SDL_CreateWindow("Handmade Hero",
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED,
                                           640,
@@ -186,11 +194,7 @@ int main(int argc, char *argv[])
             bool Running = true;
             sdl_window_dimension Dimension = SDLGetWindowDimension(Window);
             SDLResizeTexture(&GlobalBackbuffer, Renderer, Dimension.Width, Dimension.Height);
-            
-            
-            // Set the offsets in this scope ready for RenderWeirdGradient()
-            
-            int XOffset = 0;  
+            int XOffset = 0;
             int YOffset = 0;
             while(Running)
             {
@@ -205,12 +209,10 @@ int main(int argc, char *argv[])
                 
                 // This is where the renderation will be renderarising
                 
-                // RenderWeirdGradient() is the mechanics of the rendering 
-                
-                RenderWeirdGradient(GlobalBackbuffer, XOffset, YOffset); 
+                RenderWeirdGradient(GlobalBackbuffer, XOffset, YOffset); //Initial gradient state
                 SDLUpdateWindow(Window, Renderer, GlobalBackbuffer);
                 
-                // Update the Offsets every loop 
+                //Change what is happening ready for the next loop 
 
                 XOffset = XOffset * 2;
                 YOffset += 2;
@@ -218,12 +220,13 @@ int main(int argc, char *argv[])
         }
         else
         {
-            // TODO(): // 
+            // TODO(casey): Logging
         }
     }
     else
     {
-        // TODO():
+        // TODO(casey): Logging
+    }
     
     SDL_Quit();
     return(0);

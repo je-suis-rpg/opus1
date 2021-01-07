@@ -1,3 +1,11 @@
+/* ========================================================================
+   $File: $
+   $Date: $
+   $Revision: $
+   $Creator: Casey Muratori $
+   $Notice: (C) Copyright 2014 by Molly Rocket, Inc. All Rights Reserved. $
+   ======================================================================== */
+
 #include <SDL.h>
 #include <stdio.h>
 #include <sys/mman.h>
@@ -27,9 +35,9 @@ typedef uint64_t uint64;
 
 struct sdl_offscreen_buffer
 {
-    // NOTE: Pixels are always 32-bits wide, Memory Order BB GG RR XX
+    // NOTE(casey): Pixels are always 32-bits wide, Memory Order BB GG RR XX
     SDL_Texture *Texture;
-    void *Memory; 
+    void *Memory;
     int Width;
     int Height;
     int Pitch;
@@ -53,29 +61,56 @@ SDLGetWindowDimension(SDL_Window *Window)
     return(Result);
 }
 
-// Function definition that writes bits to the buffer. Note the casts and bit shifts
+// Function that writes bits to the buffer. Note the casts.
+// This function has just been replaced from RenderWeirdGradient to
+// RenderSomeStuff. This is more explicit than the version given
+// before 
 
 internal void
-RenderWeirdGradient(sdl_offscreen_buffer Buffer, int BlueOffset, int GreenOffset)
+RenderSomeStuff(sdl_offscreen_buffer Buffer)
 {    
     uint8 *Row = (uint8 *)Buffer.Memory;    
     for(int Y = 0;
         Y < Buffer.Height;
         ++Y)
     {
-        uint32 *Pixel = (uint32 *)Row;
+        uint8 *Pixel = (uint8 *)Row;
         for(int X = 0;
             X < Buffer.Width;
             ++X)
-        {
-            uint8 Blue = (X + BlueOffset);
-            uint8 Green = (Y + GreenOffset);
-            
-            *Pixel++ = ((Green << 8) | Blue);
-        }
+	  {
 
-        Row += Buffer.Pitch;
+	    // explicity set each pixel so we can play with this
+
+	    //Rememeber each pixel is represented by 32-bytes
+
+	    //byte 1
+
+	    *pixel = 255;
+	    pixel++;
+
+	    //byte 2
+
+	    *pixel = 0;
+	    pixel++;
+
+	    //byte 3
+
+	    *pixel = 0;
+	    pixel++;
+
+	    //byte 4
+
+	    *pixel = 0;
+	    pixel++;
+	   
+	 
+	      
+	}
     }
+    
+            
+    
 }
 
 internal void
@@ -169,7 +204,7 @@ int main(int argc, char *argv[])
 {
     SDL_Init(SDL_INIT_VIDEO);
     // Create our window.
-    SDL_Window *Window = SDL_CreateWindow("OPUS1",
+    SDL_Window *Window = SDL_CreateWindow("Handmade Hero",
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED,
                                           640,
@@ -186,12 +221,12 @@ int main(int argc, char *argv[])
             bool Running = true;
             sdl_window_dimension Dimension = SDLGetWindowDimension(Window);
             SDLResizeTexture(&GlobalBackbuffer, Renderer, Dimension.Width, Dimension.Height);
-            
-            
-            // Set the offsets in this scope ready for RenderWeirdGradient()
-            
-            int XOffset = 0;  
+
+	    // These variables are not needed now as we are replacing this function
+	    /*
+            int XOffset = 0;
             int YOffset = 0;
+	    */
             while(Running)
             {
                 SDL_Event Event;
@@ -205,25 +240,30 @@ int main(int argc, char *argv[])
                 
                 // This is where the renderation will be renderarising
                 
-                // RenderWeirdGradient() is the mechanics of the rendering 
-                
-                RenderWeirdGradient(GlobalBackbuffer, XOffset, YOffset); 
+                RenderSomeStuff(GlobalBackbuffer); //Render! 
                 SDLUpdateWindow(Window, Renderer, GlobalBackbuffer);
-                
-                // Update the Offsets every loop 
+
+
+		//Not needed
+		
+                //Change what is happening ready for the next loop
+		/*
 
                 XOffset = XOffset * 2;
                 YOffset += 2;
+                */
+
             }
         }
         else
         {
-            // TODO(): // 
+            // TODO(casey): Logging
         }
     }
     else
     {
-        // TODO():
+        // TODO(casey): Logging
+    }
     
     SDL_Quit();
     return(0);
