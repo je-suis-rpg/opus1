@@ -1,10 +1,6 @@
 # opus1
 
-Video game development repo. 
+Opus 1 intends to be framework code for simple sprite games. By using SDL and a retro game programming book from 1994, I want to see what exactly we can achieve with modern machines.
 
-SDL Boilerplate code has been derived from Molly Rocket's Handmade Hero's first few streams with adaptions/ports to linux from the website Handmade Penguin.
-The stream makes use of the Win32 API, so in Linux we need to use SDL. No worries there though, as SDL provides the same functionality, albeit in a different way, 
-hence the need for Handmade Penguin's explanations of the differences. 
+Back then the games ran fast. What can we achieve in this day and age with the same ideas?
 
-The Boilerplate code sets up SDL to window manage, take care of event input (Keyboard, Mouse etc) and, most importantly, gives us access to a back/double buffer 
-so one can have total and complete control over the rendering.  
