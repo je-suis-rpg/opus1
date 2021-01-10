@@ -1,11 +1,3 @@
-/* ========================================================================
-   $File: $
-   $Date: $
-   $Revision: $
-   $Creator: Casey Muratori $
-   $Notice: (C) Copyright 2014 by Molly Rocket, Inc. All Rights Reserved. $
-   ======================================================================== */
-
 #include <SDL.h>
 #include <stdio.h>
 #include <sys/mman.h>
@@ -35,7 +27,7 @@ typedef uint64_t uint64;
 
 struct sdl_offscreen_buffer
 {
-    // NOTE(casey): Pixels are always 32-bits wide, Memory Order BB GG RR XX
+    // Pixels are always 32-bits wide, Memory Order BB GG RR XX
     SDL_Texture *Texture;
     void *Memory;
     int Width;
@@ -257,12 +249,12 @@ int main(int argc, char *argv[])
         }
         else
         {
-            // TODO(casey): Logging
+            // TODO
         }
     }
     else
     {
-        // TODO(casey): Logging
+        // TODO
     }
     
     SDL_Quit();
