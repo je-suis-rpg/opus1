@@ -3,10 +3,6 @@
 #include <sys/mman.h>
 #include <stdint.h>
 
-// NOTE: MAP_ANONYMOUS is not defined on Mac OS X and some other UNIX systems.
-// On the vast majority of those systems, one can use MAP_ANON instead.
-// Huge thanks to Adam Rosenfield for investigating this, and suggesting this
-// workaround:
 #ifndef MAP_ANONYMOUS
 #define MAP_ANONYMOUS MAP_ANON
 #endif
@@ -99,6 +95,8 @@ RenderSomeStuff(sdl_offscreen_buffer Buffer)
 	 
 	      
 	}
+	    
+	    Row += Buffer.Pitch;
     }
     
             
